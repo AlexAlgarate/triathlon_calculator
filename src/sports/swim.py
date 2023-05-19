@@ -2,8 +2,15 @@ import tkinter as tk
 from tkinter import messagebox
 
 
-class VelocityCalculator:
+class SwimCalculator:
     def __init__(self, window: tk.Tk, geometry: str = "400x300") -> None:
+        """
+        Initializes the VelocityCalculator class.
+
+        Args:
+            window (tk.Tk): The main window of the application.
+            geometry (str): The initial size of the window (default is "400x300").
+        """
         self.window = window
         self.window.title("Triathlon Calculator")
         self.window.geometry(geometry)
@@ -14,6 +21,9 @@ class VelocityCalculator:
         self._create_result_field()
 
     def _create_category_labels(self):
+        """
+        Creates the category labels (Distance, Time, Velocity) in the GUI window.
+        """
         labels = [
             ("Distance", 0.04),
             ("Time", 0.17),
@@ -29,6 +39,9 @@ class VelocityCalculator:
             )
 
     def _create_label_entry_fields(self):
+        """
+        Creates the label entry fields (meters, h, min, secs) in the GUI window.
+        """
         labels = [
             ("meters", 0.6, 0.04, 0.13),
             ("h", 0.41, 0.17, 0.06),
@@ -44,6 +57,9 @@ class VelocityCalculator:
             )
 
     def _create_entry_fields(self):
+        """
+        Creates the entry fields for user input in the GUI window.
+        """
         self.entry_fields = {}
         entries = [
             ("distance", 0.35, 0.04, 0.22),
@@ -61,6 +77,9 @@ class VelocityCalculator:
             self.entry_fields[name] = entry
 
     def _create_result_field(self):
+        """
+        Creates the result field and calculate button in the GUI window.
+        """
         self.calculator = tk.Button(
             self.window, text="Calculate", command=self._swim_pace
         )
@@ -74,6 +93,11 @@ class VelocityCalculator:
         )
 
     def _swim_pace(self):
+        """
+        Calculates the swim pace based on the user input and displays the result.
+
+        This method is called when the "Calculate" button is clicked.
+        """
         try:
             distance_field = int(self.entry_fields["distance"].get())
             hour_field = int(self.entry_fields["hour"].get() or 0)
@@ -99,5 +123,5 @@ class VelocityCalculator:
 
 if __name__ == "__main__":
     window = tk.Tk()
-    calcula = VelocityCalculator(window)
+    calcula = SwimCalculator(window)
     window.mainloop()
