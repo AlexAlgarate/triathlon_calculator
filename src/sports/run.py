@@ -152,5 +152,5 @@ class RunCalculator:
 
 if __name__ == "__main__":
     window = tk.Tk()
-    calcula = RunCalculator(window)
+    RunCalculator(window)
     window.mainloop()
