@@ -1,12 +1,13 @@
 import unittest
 import tkinter as tk
-from src.sports.swim import SwimCalculator
+# from src.sports.swim import SwimCalculator
+from src.sports.run import RunCalculator
 
 
 class SwimCalculatorTest(unittest.TestCase):
     def setUp(self) -> None:
         self.window = tk.Tk()
-        self.calculator = SwimCalculator(self.window)
+        self.calculator = RunCalculator(self.window)
 
     def tearDown(self) -> None:
         self.window.destroy()
@@ -33,10 +34,10 @@ class SwimCalculatorTest(unittest.TestCase):
         self.calculator._swim_pace()
 
         expected_result = ""
-        actual_result = self.calculator.velocity_result.get()
+        actual_result = self.calculator.speed_result.get()
 
         self.assertEqual(actual_result, expected_result)
-        self.assertTrue(self.calculator.velocity_result.winfo_ismapped())
+        self.assertTrue(self.calculator.speed_result.winfo_ismapped())
 
 
 if __name__ == "__main__":
