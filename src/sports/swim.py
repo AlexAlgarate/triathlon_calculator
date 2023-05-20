@@ -30,11 +30,6 @@ class SwimCalculator:
             ("Time", 0.24),
             ("Speed", 0.42)
         ]
-        # labels = [
-        #     ("Distance", 0.04),
-        #     ("Time", 0.17),
-        #     ("Speed", 0.35)
-        # ]
 
         for label_text, rely_value in labels:
             label = tk.Label(
