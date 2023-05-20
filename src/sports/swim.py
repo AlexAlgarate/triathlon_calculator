@@ -3,9 +3,9 @@ from tkinter import messagebox
 
 
 class SwimCalculator:
-    def __init__(self, window: tk.Tk, geometry: str = "400x300") -> None:
+    def __init__(self, window: tk.Tk, geometry: str = "600x300") -> None:
         """
-        Initializes the VelocityCalculator class.
+        Initializes the speedCalculator class.
 
         Args:
             window (tk.Tk): The main window of the application.
@@ -18,17 +18,23 @@ class SwimCalculator:
         self._create_category_labels()
         self._create_label_entry_fields()
         self._create_entry_fields()
+        self._create_distance_buttons()
         self._create_result_field()
 
     def _create_category_labels(self):
         """
-        Creates the category labels (Distance, Time, Velocity) in the GUI window.
+        Creates the category labels (Distance, Time, Speed) in the GUI window.
         """
         labels = [
-            ("Distance", 0.04),
-            ("Time", 0.17),
-            ("Velocity", 0.35)
+            ("Distance", 0.11),
+            ("Time", 0.24),
+            ("Speed", 0.42)
         ]
+        # labels = [
+        #     ("Distance", 0.04),
+        #     ("Time", 0.17),
+        #     ("Speed", 0.35)
+        # ]
 
         for label_text, rely_value in labels:
             label = tk.Label(
@@ -43,10 +49,10 @@ class SwimCalculator:
         Creates the label entry fields (meters, h, min, secs) in the GUI window.
         """
         labels = [
-            ("meters", 0.6, 0.04, 0.13),
-            ("h", 0.41, 0.17, 0.06),
-            ("min", 0.545, 0.17, 0.06),
-            ("secs", 0.71, 0.17, 0.06)
+            ("meters", 0.6, 0.11, 0.13),
+            ("h", 0.41, 0.24, 0.06),
+            ("min", 0.545, 0.24, 0.06),
+            ("secs", 0.71, 0.24, 0.06)
         ]
 
         for label_text, relx_value, rely_value, relwidht_value in labels:
@@ -62,10 +68,10 @@ class SwimCalculator:
         """
         self.entry_fields = {}
         entries = [
-            ("distance", 0.35, 0.04, 0.22),
-            ("hour", 0.35, 0.17, 0.06),
-            ("minute", 0.47, 0.17, 0.06),
-            ("seconds", 0.63, 0.17, 0.06)
+            ("distance", 0.35, 0.11, 0.22),
+            ("hour", 0.35, 0.24, 0.06),
+            ("minute", 0.47, 0.24, 0.06),
+            ("seconds", 0.63, 0.24, 0.06)
         ]
 
         for name, relx_value, rely_value, relwidt_value in entries:
@@ -87,10 +93,38 @@ class SwimCalculator:
             relx=0.7, rely=0.6, relwidth=0.20, relheight=0.1
         )
 
-        self.velocity_result = tk.Entry(self.window, bg="khaki1")
-        self.velocity_result.place(
-            relx=0.35, rely=0.35, relwidth=0.44, relheight=0.1
+        self.speed_result = tk.Entry(self.window, bg="khaki1")
+        self.speed_result.place(
+            relx=0.35, rely=0.42, relwidth=0.35, relheight=0.1
         )
+
+    def _create_distance_buttons(self):
+        distances = [
+            ("Sprint", 750),
+            ("Olympic", 1000),
+            ("Half Ironman", 1900),
+            ("Ironman", 3800)
+        ]
+        # Assign an initial empty value
+        self.selected_distance = tk.StringVar(value=" ")
+
+        distance_frame = tk.Frame(self.window)
+        distance_frame.place(
+            relx=0.15, rely=0.04, relwidth=0.6, relheight=0.06
+        )
+        for i, (button_text, distance_value) in enumerate(distances):
+            button = tk.Radiobutton(
+                distance_frame, text=button_text,
+                variable=self.selected_distance,
+                value=str(distance_value),
+                command=self._set_distance
+            )
+            button.pack(side="left", padx=5)
+
+    def _set_distance(self):
+        distance_value = self.selected_distance.get()
+        self.entry_fields["distance"].delete(0, "end")
+        self.entry_fields["distance"].insert(0, distance_value)
 
     def _swim_pace(self):
         """
@@ -115,10 +149,10 @@ class SwimCalculator:
         minutes = int(pace_seconds // 60)
         seconds_left = int(pace_seconds % 60)
         result = f"0{minutes:01d}:{seconds_left:02d} min/100mts"
-        # Clear the current content of the velocity entry field
-        self.velocity_result.delete(0, "end")
-        # Insert the calculated result at the beginning of the velocity entry field
-        str(self.velocity_result.insert(0, result))
+        # Clear the current content of the speed entry field
+        self.speed_result.delete(0, "end")
+        # Insert the calculated result at the beginning of the speed entry field
+        str(self.speed_result.insert(0, result))
 
 
 if __name__ == "__main__":
