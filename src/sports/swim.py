@@ -152,5 +152,5 @@ class SwimCalculator:
 
 if __name__ == "__main__":
     window = tk.Tk()
-    calcula = SwimCalculator(window)
+    SwimCalculator(window)
     window.mainloop()
