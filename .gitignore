@@ -5,6 +5,12 @@ __pycache__/
 organización calculadora.txt
 pyproject.toml
 setup.cfg
+prueba2.py
+.vscode
+main2.py
+src/utils
+
+
 
 # C extensions
 *.so

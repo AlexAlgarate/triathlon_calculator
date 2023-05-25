@@ -1,8 +1,4 @@
-import tkinter as tk
-from src.sports.swim import SwimCalculator
+from src.sports import swim_event
 
 
-if __name__ == "__main__":
-    window = tk.Tk()
-    calcula = SwimCalculator(window)
-    window.mainloop()
+swim_event.Swim(title="Swim Calculator", size=(600, 350))
