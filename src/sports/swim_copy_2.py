@@ -9,13 +9,13 @@ class Swim(tk.Tk):
         self.title(title)
         self.geometry(f"{size[0]}x{size[1]}")
         self.minsize(size[0], size[1])
-        # self.maxsize(size[0], size[1])
+        self.maxsize(size[0], size[1])
 
         self.create_menu_label()
         self.create_label_entry_gap()
         self.create_entry_gap()
         self.create_distance_buttons()
-        self.create_result_gap()
+        self.create_result_frame()
         self.close_window_button()
 
         # self.mainloop()
@@ -24,15 +24,15 @@ class Swim(tk.Tk):
         self.mainloop()
 
     def create_menu_label(self):
-        MenuLabel(self, text="Distance", rely_value=0.11, background="PaleTurquoise2")
-        MenuLabel(self, text="Time", rely_value=0.24, background="PaleTurquoise2")
-        MenuLabel(self, text="Speed", rely_value=0.42, background="PaleTurquoise2")
+        MenuLabel(self, text="Distance", rely_value=0.18, background="PaleTurquoise2")
+        MenuLabel(self, text="Time", rely_value=0.33, background="PaleTurquoise2")
+        MenuLabel(self, text="Speed", rely_value=0.49, background="PaleTurquoise2")
 
     def create_label_entry_gap(self):
-        EntryLabel(self, text="meters", relx_value=0.6, rely_value=0.11, relwidth_value=0.13)
-        EntryLabel(self, text="h", relx_value=0.41, rely_value=0.24, relwidth_value=0.06)
-        EntryLabel(self, text="min", relx_value=0.545, rely_value=0.24, relwidth_value=0.06)
-        EntryLabel(self, text="secs", relx_value=0.71, rely_value=0.24, relwidth_value=0.06)
+        EntryLabel(self, text="meters", relx_value=0.6, rely_value=0.18, relwidth_value=0.13)
+        EntryLabel(self, text="h", relx_value=0.41, rely_value=0.33, relwidth_value=0.06)
+        EntryLabel(self, text="min", relx_value=0.545, rely_value=0.33, relwidth_value=0.06)
+        EntryLabel(self, text="secs", relx_value=0.71, rely_value=0.33, relwidth_value=0.06)
 
     def create_entry_gap(self):
         self.entry_gap = {}
@@ -42,7 +42,7 @@ class Swim(tk.Tk):
                 name="distance",
                 background="khaki1",
                 relx_value=0.35,
-                rely_value=0.11,
+                rely_value=0.18,
                 relwidth_value=0.22,
             ),
             EntryGap(
@@ -50,7 +50,7 @@ class Swim(tk.Tk):
                 name="hour",
                 background="khaki1",
                 relx_value=0.35,
-                rely_value=0.24,
+                rely_value=0.33,
                 relwidth_value=0.06,
             ),
             EntryGap(
@@ -58,7 +58,7 @@ class Swim(tk.Tk):
                 name="minute",
                 background="khaki1",
                 relx_value=0.47,
-                rely_value=0.24,
+                rely_value=0.33,
                 relwidth_value=0.06,
             ),
             EntryGap(
@@ -66,7 +66,7 @@ class Swim(tk.Tk):
                 name="seconds",
                 background="khaki1",
                 relx_value=0.63,
-                rely_value=0.24,
+                rely_value=0.33,
                 relwidth_value=0.06,
             ),
         ]
@@ -74,9 +74,9 @@ class Swim(tk.Tk):
             entry = item
             self.entry_gap[entry.name] = entry
 
-    def create_result_gap(self):
+    def create_result_frame(self):
         self.calculator = tk.Button(self, text="Calculate", command=self.swim_pace)
-        self.calculator.place(relx=0.7, rely=0.6, relwidth=0.20, relheight=0.1)
+        self.calculator.place(relx=0.75, rely=0.49, relwidth=0.20, relheight=0.1)
         self.speed_result = ResultGap(self, background="khaki1")
 
     def create_distance_buttons(self):
@@ -179,7 +179,7 @@ class ResultGap(tk.Entry):
     def __init__(self, parent, background: str):
         place_parameter: Dict[str, float] = {
             "relx": 0.35,
-            "rely": 0.42,
+            "rely": 0.49,
             "relwidth": 0.35,
             "relheight": 0.1
         }
@@ -195,10 +195,10 @@ class ResultGap(tk.Entry):
 class CloseWindowButton(tk.Button):
     def __init__(self, parent, button_text: str, root):
         place_parameter: Dict[str, float] = {
-            "relx": 0.7,
-            "rely": 0.8,
+            "relx": 0.85,
+            "rely": 0.85,
             "relheight": 0.1,
-            "relwidth": 0.25
+            "relwidth": 0.10
         }
         super().__init__(parent, text=button_text, command=lambda: self._close_window(root))
         self.place(
@@ -212,5 +212,6 @@ class CloseWindowButton(tk.Button):
         root.destroy()
 
 
-# if __name__ == "__main__":
-#     Swim(title="Swim Calculator", size=(600, 250))
+if __name__ == "__main__":
+    app = Swim(title="Swim Calculator", size=(500, 300))
+    app.run()
