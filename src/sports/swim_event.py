@@ -15,14 +15,9 @@ class Swim(tk.Tk):
         self.create_label_entry_gap()
         self.create_entry_gap()
         self.create_distance_buttons()
-        self.create_result_frame()
         self.close_window_button()
+        self.update_result()
 
-        self.entry_gap["distance"].bind("<Return>", self.swim_pace)
-        self.entry_gap["hour"].bind("<Return>", self.swim_pace)
-        self.entry_gap["minute"].bind("<Return>", self.swim_pace)
-        self.entry_gap["seconds"].bind("<Return>", self.swim_pace)
-        self.after(5000, self.swim_pace)
         self.mainloop()
 
     def create_menu_label(self):
@@ -103,59 +98,46 @@ class Swim(tk.Tk):
         self.entry_gap["distance"].delete(0, "end")
         self.entry_gap["distance"].insert(0, distance_value)
 
-    def create_result_frame(self):
-        self.calculator = tk.Button(self, text="Calculate", command=self.swim_pace)
-        self.calculator.place(relx=0.75, rely=0.65, relwidth=0.20, relheight=0.1)
-        self.speed_result = ResultGap(self, background="khaki1")
-        self.result_label = tk.Label(self)
+    def swim_pace(self, event=None):
+        distance_gap = self.entry_gap["distance"].get()
+        hour_gap = self.entry_gap["hour"].get() or 0
+        minute_gap = self.entry_gap["minute"].get() or 0
+        seconds_gap = self.entry_gap["seconds"].get() or 0
 
-    def swim_pace(self):
-        try:
-            self.after(1000, self.swim_pace)
-            distance_gap = int(self.entry_gap["distance"].get())
-            hour_gap = int(self.entry_gap["hour"].get() or 0)
-            minute_gap = int(self.entry_gap["minute"].get() or 0)
-            seconds_gap = int(self.entry_gap["seconds"].get() or 0)
+        if distance_gap and (hour_gap or minute_gap or seconds_gap):
+            try:
+                distance_gap = int(distance_gap)
+                hour_gap = int(hour_gap)
+                minute_gap = int(minute_gap)
+                seconds_gap = int(seconds_gap)
 
-        except ValueError:
-            messagebox.showerror("Error", "Invalid input. Please enter numbers only.")
-            return
+                total_seconds = (hour_gap * 3600) + (minute_gap * 60) + seconds_gap
+                pace_seconds = (total_seconds * 100) / distance_gap
+                minutes = int(pace_seconds // 60)
+                seconds_left = int(pace_seconds % 60)
+                result = f"0{minutes:01d}:{seconds_left:02d} min/100mts"
 
-        total_seconds = (hour_gap * 3600) + (minute_gap * 60) + seconds_gap
-        pace_seconds = (total_seconds * 100) / distance_gap
-        minutes = int(pace_seconds // 60)
-        seconds_left = int(pace_seconds % 60)
-        result = f"0{minutes:01d}:{seconds_left:02d} min/100mts"
+                self.result_label = tk.Entry(self)
+                self.result_label.config(text=result, background="khaki1")
+                self.result_label.place(relx=0.35, rely=0.65, relwidth=0.35, relheight=0.1)
 
-        self.result_label.config(text=result, background="khaki1")
-        self.result_label.place(relx=0.45, rely=0.49, relwidth=0.3, relheight=0.1)
+                self.result_label.delete(0, "end")
+                self.result_label.insert(0, result)
 
-        self.speed_result.delete(0, "end")
-        self.speed_result.insert(0, result)
+            except ValueError:
+                messagebox.showerror("Error", "Invalid input. Please enter numbers only.")
+                return
+        self.after(5000, self.swim_pace)
+
+    def update_result(self):
+        self.entry_gap["distance"].bind("<Return>", self.swim_pace)
+        self.entry_gap["hour"].bind("<Return>", self.swim_pace)
+        self.entry_gap["minute"].bind("<Return>", self.swim_pace)
+        self.entry_gap["seconds"].bind("<Return>", self.swim_pace)
+        self.after(1000, self.swim_pace)  # If not commented, after 10 seconds it runs swim_pace
 
     def close_window_button(self):
         CloseWindowButton(self, button_text="Close", root=self.winfo_toplevel())
-
-
-class ResultGap(tk.Entry):
-    def __init__(
-        self,
-        parent,
-        background: str
-    ):
-        place_parameter: Dict[str, float] = {
-            "relx": 0.35,
-            "rely": 0.65,
-            "relwidth": 0.35,
-            "relheight": 0.1
-        }
-        super().__init__(parent, background=background)
-        self.place(
-            relx=place_parameter["relx"],
-            rely=place_parameter["rely"],
-            relwidth=place_parameter["relwidth"],
-            relheight=place_parameter["relheight"]
-        )
 
 
 class MenuLabel(tk.Label):
