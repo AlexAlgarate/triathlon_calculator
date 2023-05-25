@@ -26,10 +26,18 @@ class Swim(tk.Tk):
         MenuLabel(self, text="Speed", rely_value=0.65, background="PaleTurquoise2")
 
     def create_label_entry_gap(self):
-        EntryLabel(self, text="meters", relx_value=0.6, rely_value=0.18, relwidth_value=0.13)
-        EntryLabel(self, text="h", relx_value=0.41, rely_value=0.33, relwidth_value=0.06)
-        EntryLabel(self, text="min", relx_value=0.545, rely_value=0.33, relwidth_value=0.06)
-        EntryLabel(self, text="secs", relx_value=0.71, rely_value=0.33, relwidth_value=0.06)
+        EntryLabel(
+            self, text="meters", relx_value=0.6, rely_value=0.18, relwidth_value=0.13
+        )
+        EntryLabel(
+            self, text="h", relx_value=0.41, rely_value=0.33, relwidth_value=0.06
+        )
+        EntryLabel(
+            self, text="min", relx_value=0.545, rely_value=0.33, relwidth_value=0.06
+        )
+        EntryLabel(
+            self, text="secs", relx_value=0.71, rely_value=0.33, relwidth_value=0.06
+        )
 
     def create_entry_gap(self):
         self.entry_gap = {}
@@ -65,7 +73,7 @@ class Swim(tk.Tk):
                 relx_value=0.63,
                 rely_value=0.33,
                 relwidth_value=0.06,
-            )
+            ),
         ]
         for item in entries:
             entry = item
@@ -119,13 +127,17 @@ class Swim(tk.Tk):
 
                 self.result_label = tk.Entry(self)
                 self.result_label.config(text=result, background="khaki1")
-                self.result_label.place(relx=0.35, rely=0.65, relwidth=0.35, relheight=0.1)
+                self.result_label.place(
+                    relx=0.35, rely=0.65, relwidth=0.35, relheight=0.1
+                )
 
                 self.result_label.delete(0, "end")
                 self.result_label.insert(0, result)
 
             except ValueError:
-                messagebox.showerror("Error", "Invalid input. Please enter numbers only.")
+                messagebox.showerror(
+                    "Error", "Invalid input. Please enter numbers only."
+                )
                 return
         self.after(5000, self.swim_pace)
 
@@ -134,31 +146,28 @@ class Swim(tk.Tk):
         self.entry_gap["hour"].bind("<Return>", self.swim_pace)
         self.entry_gap["minute"].bind("<Return>", self.swim_pace)
         self.entry_gap["seconds"].bind("<Return>", self.swim_pace)
-        self.after(1000, self.swim_pace)  # If not commented, after 10 seconds it runs swim_pace
+        self.after(
+            1000, self.swim_pace
+        )  # If not commented, after 10 seconds it runs swim_pace
 
     def close_window_button(self):
         CloseWindowButton(self, button_text="Close", root=self.winfo_toplevel())
 
 
 class MenuLabel(tk.Label):
-    def __init__(
-        self,
-        parent,
-        text: str,
-        background: str,
-        rely_value: float
-    ):
+    def __init__(self, parent, text: str, background: str, rely_value: float):
         place_parameter: Dict[str, float] = {
             "relx": 0.05,
             "relwidth": 0.23,
-            "relheight": 0.1
+            "relheight": 0.1,
         }
         super().__init__(parent, text=text, background=background)
         self.place(
             relx=place_parameter["relx"],
             rely=rely_value,
             relwidth=place_parameter["relwidth"],
-            relheight=place_parameter["relheight"])
+            relheight=place_parameter["relheight"],
+        )
 
 
 class EntryLabel(tk.Label):
@@ -187,7 +196,9 @@ class EntryGap(tk.Entry):
         relwidth_value: float,
     ):
         super().__init__(parent, background=background)
-        self.place(relx=relx_value, rely=rely_value, relwidth=relwidth_value, relheight=0.1)
+        self.place(
+            relx=relx_value, rely=rely_value, relwidth=relwidth_value, relheight=0.1
+        )
         self.name = name
 
 
@@ -197,14 +208,16 @@ class CloseWindowButton(tk.Button):
             "relx": 0.85,
             "rely": 0.85,
             "relheight": 0.1,
-            "relwidth": 0.10
+            "relwidth": 0.10,
         }
-        super().__init__(parent, text=button_text, command=lambda: self._close_window(root))
+        super().__init__(
+            parent, text=button_text, command=lambda: self._close_window(root)
+        )
         self.place(
             relx=place_parameter["relx"],
             rely=place_parameter["rely"],
             relheight=place_parameter["relheight"],
-            relwidth=place_parameter["relwidth"]
+            relwidth=place_parameter["relwidth"],
         )
 
     def _close_window(self, root):

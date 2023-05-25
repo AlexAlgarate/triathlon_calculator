@@ -1,6 +1,5 @@
 import tkinter as tk
 from src.sports import cycling
-from src.sports.swim_copy_2 import Swim
 
 
 class MainWindow(tk.Tk):

@@ -28,11 +28,7 @@ class SwimCalculator:
         """
         Creates the category labels (Distance, Time, Speed) in the GUI window.
         """
-        labels = [
-            ("Distance", 0.11),
-            ("Time", 0.24),
-            ("Speed", 0.42)
-        ]
+        labels = [("Distance", 0.11), ("Time", 0.24), ("Speed", 0.42)]
 
         for label_text, rely_value in labels:
             label = tk.Label(self.window, text=label_text, background="PaleTurquoise2")
