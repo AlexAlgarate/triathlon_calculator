@@ -1,4 +1,6 @@
-from src.sports import swim_event
+from src.sports.swimming.swim_calculator import SwimCalculator
 
 
-swim_event.Swim(title="Swim Calculator", size=(600, 350))
+if __name__ == "__main__":
+    swim = SwimCalculator(title="Swim Calculator", size=(600, 350))
+    swim.mainloop()
