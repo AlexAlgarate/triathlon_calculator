@@ -19,8 +19,11 @@ jobs:
         with:
           python-version: '3.11' # install the python version needed
           cache: 'pip'
-      - name: install python packages
-        run: pip install -r requirements.txt
-  
+      - name: install dependencies
+        run: |
+         sudo apt-get update
+         sudo apt-get install xvfb
+         pip install -r requirements.txt
+
       - name: run tests
-        run: python test.py
+        run: svfb-run -a python test.py
