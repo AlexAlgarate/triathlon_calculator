@@ -1,6 +1,6 @@
 import tkinter as tk
 from tkinter import messagebox
-
+ 
 
 class CyclingCalculator:
     def __init__(self, window: tk.Tk, geometry: str = "600x300") -> None:

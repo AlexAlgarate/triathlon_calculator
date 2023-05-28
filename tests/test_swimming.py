@@ -1,18 +1,23 @@
+import os
+import sys
 import tkinter as tk
 import unittest
 from typing import Dict, Union
 from unittest.mock import MagicMock, patch
 
-from src.sports.swimming.CloseWindowButton import CloseWindowButton
+project_root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+sys.path.insert(0, project_root)
+
+from src.sports.swimming.close_window import CloseWindowButton
 from src.sports.swimming.swim_calculator import SwimCalculator
-from src.sports.swimming.WidgetsSwim import WidgetsSwim
+from src.sports.swimming.widgets import Widgets
 
 
 class TestSwimLabelsEntries(unittest.TestCase):
     def setUp(self):
         self.window = tk.Tk()
 
-        self.app = WidgetsSwim(self.window)
+        self.app = Widgets(self.window, "TEST SWIM", (600, 350))
         self.app = SwimCalculator("TEST SWIM", (600, 350))
 
     def _entry_gap_get(self):

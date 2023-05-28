@@ -1,20 +1,14 @@
 import tkinter as tk
 from tkinter import messagebox
-from typing import Tuple
 
-# from WidgetsSwim import WidgetsSwim
-from src.sports.swimming.WidgetsSwim import WidgetsSwim
+from src.sports.swimming.widgets import Widgets
 
 
 class SwimCalculator(tk.Tk):
-    def __init__(self, title: str, size: Tuple[int, int]):
+    def __init__(self):
         super().__init__()
-        self.title(title)
-        self.geometry(f"{size[0]}x{size[1]}")
-        self.minsize(size[0], size[1])
-        self.maxsize(size[0], size[1])
 
-        self.widget = WidgetsSwim(self)
+        self.widget = Widgets(self, title="Swim Calculator", size=(600, 350))
         self.update_result()
 
     def swim_pace(self, event=None):
@@ -64,8 +58,3 @@ class SwimCalculator(tk.Tk):
         self.widget.entry_gap["minutes"].bind("<Return>", self.swim_pace)
         self.widget.entry_gap["seconds"].bind("<Return>", self.swim_pace)
         self.after(1000, self.swim_pace)
-
-
-# if __name__ == "__main__":
-#     swim = SwimCalculator("Swim Calculator", (600, 350))
-#     swim.mainloop()

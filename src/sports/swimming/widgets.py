@@ -1,21 +1,25 @@
 import tkinter as tk
+from typing import Tuple
 
-from src.sports.swimming.CloseWindowButton import CloseWindowButton
-from src.sports.swimming.EntryGap import EntryGap
-from src.sports.swimming.EntryLabel import EntryLabel
-from src.sports.swimming.MenuLabel import MenuLabel
+from src.sports.swimming.close_window import CloseWindowButton
+from src.sports.swimming.entry_gaps import EntryGap
+from src.sports.swimming.entry_labels import EntryLabel
+from src.sports.swimming.menu_labels import MenuLabel
 
 
-class WidgetsSwim:
-    def __init__(self, window: tk.Tk):
+class Widgets:
+    def __init__(self, window: tk.Tk, title: str, size: Tuple[int, int]):
         self.window = window
-        self.window.title("SWIM CALCULATOR")
-        self.window.geometry("600x350")
+        self.window.title(title)
+        self.window.geometry(f"{size[0]}x{size[1]}")
+        self.window.minsize(size[0], size[1])
+        self.window.maxsize(size[0], size[1])
+
         self._create_menu_label()
         self._create_label_entry_gap()
         self._create_distance_buttons()
-        self._create_entry_gap()
         self._close_window_button()
+        self._create_entry_gap()
 
     def _create_menu_label(self):
         self.menu_labels = []
