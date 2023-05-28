@@ -1,0 +1,26 @@
+name: run tests
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      -main
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: checkout repo content
+        uses: actions/checkout@v2 # checkout the repository content
+      - name: setup python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11' # install the python version needed
+          cache: 'pip'
+      - name: install python packages
+        run: pip install -r requirements.txt
+  
+      - name: run tests
+        run: python test.py
