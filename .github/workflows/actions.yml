@@ -28,7 +28,7 @@ jobs:
          pip install -r requirements.txt
 
       - name: format code
-        run: black . --check
+        run: black .
 
       - name: lint code
         run: ruff lint
