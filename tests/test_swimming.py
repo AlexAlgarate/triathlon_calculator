@@ -5,14 +5,13 @@ import unittest
 from typing import Dict, Union
 from unittest.mock import MagicMock, patch
 
-
 project_root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, project_root)
 
+from src.sports.swimming.swim_calculator import SwimCalculator  # noga
+from src.utils.close_window import CloseWindowButton  # noga
 from src.utils.triathlon_distance_buttons import DistanceButtonsCreator
-from src.utils.close_window import CloseWindowButton
-from src.sports.swimming.swim_calculator import SwimCalculator
-from src.utils.widgets import Widgets
+from src.utils.widgets import Widgets  # noga
 
 
 class TestSwimLabelsEntries(unittest.TestCase):
