@@ -3,7 +3,7 @@ from typing import Dict
 
 
 class CloseWindowButton(tk.Button):
-    def __init__(self, parent, button_text: str, root):
+    def __init__(self, parent: tk.Tk, button_text: str, root):
         place_parameter: Dict[str, float] = {
             "relx": 0.85,
             "rely": 0.85,

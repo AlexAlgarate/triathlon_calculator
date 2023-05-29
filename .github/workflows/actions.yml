@@ -14,16 +14,24 @@ jobs:
     steps:
       - name: checkout repo content
         uses: actions/checkout@v2 # checkout the repository content
+
       - name: setup python
         uses: actions/setup-python@v4
         with:
           python-version: '3.11' # install the python version needed
           cache: 'pip'
+
       - name: install dependencies
         run: |
          sudo apt-get update
          sudo apt-get install xvfb
          pip install -r requirements.txt
+
+      - name: format code
+        run: black . --check
+
+      - name: lint code
+        run: ruff lint
 
       - name: run tests
         run: xvfb-run -a python test.py

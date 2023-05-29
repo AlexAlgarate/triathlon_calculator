@@ -1,20 +1,24 @@
 import tkinter as tk
 from tkinter import messagebox
-from typing import Tuple
 
-# from WidgetsSwim import WidgetsSwim
-from src.sports.swimming.WidgetsSwim import WidgetsSwim
+from src.utils.widgets import Widgets
 
 
 class SwimCalculator(tk.Tk):
-    def __init__(self, title: str, size: Tuple[int, int]):
-        super().__init__()
-        self.title(title)
-        self.geometry(f"{size[0]}x{size[1]}")
-        self.minsize(size[0], size[1])
-        self.maxsize(size[0], size[1])
+    DISTANCES = [
+        ("Sprint", 750),
+        ("Olympic", 1500),
+        ("Half Ironman", 1900),
+        ("Ironman", 3800),
+    ]
+    result_entry: tk.Entry
 
-        self.widget = WidgetsSwim(self)
+    def __init__(self):
+        super().__init__()
+
+        self.widget = Widgets(self, title="Swim Calculator", size=(600, 350))
+        self.widget.create_distance_buttons(self.DISTANCES)
+
         self.update_result()
 
     def swim_pace(self, event=None):
@@ -34,16 +38,11 @@ class SwimCalculator(tk.Tk):
                 pace_seconds = (total_seconds * 100) / distance_gap
                 minutes = int(pace_seconds // 60)
                 seconds_left = int(pace_seconds % 60)
-                result = f"0{minutes:01d}:{seconds_left:02d} min/100mts"
+                self.result = f"0{minutes:01d}:{seconds_left:02d} min/100mts"
 
-                self.result_label = tk.Entry(self)
-                self.result_label.config(text=result, background="khaki1")
-                self.result_label.place(
-                    relx=0.35, rely=0.65, relwidth=0.35, relheight=0.1
-                )
-
-                self.result_label.delete(0, "end")
-                self.result_label.insert(0, result)
+                self.result_entry = self.widget.create_result_gap(result_gap=self.result)
+                self.result_entry.delete(0, "end")
+                self.result_entry.insert(0, self.result)
 
             except ValueError:
                 messagebox.showerror(
@@ -64,8 +63,3 @@ class SwimCalculator(tk.Tk):
         self.widget.entry_gap["minutes"].bind("<Return>", self.swim_pace)
         self.widget.entry_gap["seconds"].bind("<Return>", self.swim_pace)
         self.after(1000, self.swim_pace)
-
-
-# if __name__ == "__main__":
-#     swim = SwimCalculator("Swim Calculator", (600, 350))
-#     swim.mainloop()
