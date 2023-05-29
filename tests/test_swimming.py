@@ -5,12 +5,14 @@ import unittest
 from typing import Dict, Union
 from unittest.mock import MagicMock, patch
 
+
 project_root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, project_root)
 
-from src.sports.swimming.close_window import CloseWindowButton
+from src.utils.triathlon_distance_buttons import DistanceButtonsCreator
+from src.utils.close_window import CloseWindowButton
 from src.sports.swimming.swim_calculator import SwimCalculator
-from src.sports.swimming.widgets import Widgets
+from src.utils.widgets import Widgets
 
 
 class TestSwimLabelsEntries(unittest.TestCase):
@@ -18,7 +20,7 @@ class TestSwimLabelsEntries(unittest.TestCase):
         self.window = tk.Tk()
 
         self.app = Widgets(self.window, "TEST SWIM", (600, 350))
-        self.app = SwimCalculator("TEST SWIM", (600, 350))
+        self.app = SwimCalculator()
 
     def _entry_gap_get(self):
         distance = self.app.widget.entry_gap["distance"].get()
@@ -44,9 +46,6 @@ class TestSwimLabelsEntries(unittest.TestCase):
     def test_create_entry_gap(self):
         self.assertEqual(len(self.app.widget.entry_gap), 4)
 
-    def test_create_distance_buttons(self):
-        self.assertEqual(len(self.app.widget.distance_buttons), 4)
-
     def test_default_values(self):
         distance, hours, minutes, seconds = self._entry_gap_get()
         self.assertEqual(distance, "")
@@ -70,7 +69,7 @@ class TestSwimLabelsEntries(unittest.TestCase):
 
         self._update_gap_values(values)
         self.app.swim_pace()
-        result = self.app.result_label.get()
+        result = self.app.result_entry.get()
         self.assertEqual(result, "01:30 min/100mts")
 
     def test_invalid_values(self):
@@ -108,6 +107,45 @@ class TestSwimLabelsEntries(unittest.TestCase):
     def test_no_input(self):
         # Test case where no input is provided
         self.app.after(100, self.verify_result_label)
+
+
+class DistanceButtonsTest(unittest.TestCase):
+    def setUp(self) -> None:
+        self.window = tk.Tk()
+        self.selected_distance = tk.StringVar()
+        self.entry_gap = {"distance": tk.Entry(self.window)}
+        self.buttons_creator = DistanceButtonsCreator(
+            self.window, self.selected_distance, self.entry_gap
+        )
+
+    def tearDown(self) -> None:
+        self.window.destroy()
+
+    def test_distance_buttons_creations(self):
+        distances = [
+            ("Sprint", "750"),
+            ("Olympic", "1500"),
+            ("Half Ironman", "1900"),
+            ("Ironman", "3800")
+        ]
+        self.buttons_creator.create_distance_buttons(distances)
+
+        # Check if the correct number of buttons is created
+        self.assertEqual(len(distances), len(self.buttons_creator.distance_frame.winfo_children()))
+
+        # Check if the buttons have the correct text and value
+        for i, (button_text, distance_value) in enumerate(distances):
+            button = self.buttons_creator.distance_frame.winfo_children()[i]
+            self.assertEqual(button.cget("text"), button_text)
+            self.assertEqual(button["value"], str(distance_value))
+
+    def test_set_distance(self):
+        distance_value = 1500
+        self.selected_distance.set(str(distance_value))
+        self.buttons_creator._set_distance()
+
+        # Check if the entry_gap["distance"] is updated with the selected distance value
+        self.assertEqual(self.entry_gap["distance"].get(), str(distance_value))
 
 
 class TestCloseWindowButton(unittest.TestCase):

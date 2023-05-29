@@ -1,13 +1,16 @@
 import tkinter as tk
-from typing import Tuple
+from typing import List, Tuple, Union
 
-from src.sports.swimming.close_window import CloseWindowButton
-from src.sports.swimming.entry_gaps import EntryGap
-from src.sports.swimming.entry_labels import EntryLabel
-from src.sports.swimming.menu_labels import MenuLabel
+from src.utils.close_window import CloseWindowButton
+from src.utils.triathlon_distance_buttons import DistanceButtonsCreator
+from src.utils.entry_gaps import EntryGap
+from src.utils.entry_labels import EntryLabel
+from src.utils.menu_labels import MenuLabel
 
 
 class Widgets:
+    selected_distance: tk.StringVar
+
     def __init__(self, window: tk.Tk, title: str, size: Tuple[int, int]):
         self.window = window
         self.window.title(title)
@@ -15,11 +18,12 @@ class Widgets:
         self.window.minsize(size[0], size[1])
         self.window.maxsize(size[0], size[1])
 
+        self.selected_distance = tk.StringVar(value=" ")
+
         self._create_menu_label()
         self._create_label_entry_gap()
-        self._create_distance_buttons()
-        self._close_window_button()
         self._create_entry_gap()
+        self._close_window_button()
 
     def _create_menu_label(self):
         self.menu_labels = []
@@ -121,32 +125,17 @@ class Widgets:
             entry = item
             self.entry_gap[entry.name] = entry
 
-    def _create_distance_buttons(self):
-        self.distance_buttons = []
-        distances = [
-            ("Sprint", 750),
-            ("Olympic", 1500),
-            ("Half Ironman", 1900),
-            ("Ironman", 3800),
-        ]
-        self.selected_distance = tk.StringVar(value=" ")
-        distance_frame = tk.Frame(self.window)
-        distance_frame.place(relx=0.15, rely=0.04, relwidth=0.6, relheight=0.06)
-        for i, (button_text, distance_value) in enumerate(distances):
-            button = tk.Radiobutton(
-                distance_frame,
-                text=button_text,
-                variable=self.selected_distance,
-                value=str(distance_value),
-                command=self._set_distance,
-            )
-            button.pack(side="left", padx=5)
-            self.distance_buttons.append(button)
+    def create_distance_buttons(self, distances: List[Tuple[str, Union[int, float]]]):
+        distance_buttons_creator = DistanceButtonsCreator(
+            self.window, self.selected_distance, self.entry_gap
+        )
+        distance_buttons_creator.create_distance_buttons(distances)
 
-    def _set_distance(self):
-        distance_value = self.selected_distance.get()
-        self.entry_gap["distance"].delete(0, "end")
-        self.entry_gap["distance"].insert(0, distance_value)
+    def create_result_gap(self, result_gap: str):
+        result_entry = tk.Entry(self.window)
+        result_entry.config(text=result_gap, background="khaki1")
+        result_entry.place(relx=0.35, rely=0.65, relwidth=0.35, relheight=0.1)
+        return result_entry
 
     def _close_window_button(self):
         CloseWindowButton(
