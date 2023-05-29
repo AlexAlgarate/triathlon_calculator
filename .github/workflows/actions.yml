@@ -31,7 +31,7 @@ jobs:
         run: black .
 
       - name: lint code
-        run: ruff lint
+        run: ruff .
 
       - name: run tests
         run: xvfb-run -a python test.py
