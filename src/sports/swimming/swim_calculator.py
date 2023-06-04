@@ -26,7 +26,6 @@ class SwimCalculator(tk.Tk):
         hour_gap = self.widget.entry_gap["hour"].get() or 0
         minute_gap = self.widget.entry_gap["minutes"].get() or 0
         seconds_gap = self.widget.entry_gap["seconds"].get() or 0
-
         if distance_gap and (hour_gap or minute_gap or seconds_gap):
             try:
                 distance_gap = int(distance_gap)
@@ -43,6 +42,12 @@ class SwimCalculator(tk.Tk):
                 self.result_entry = self.widget.create_result_gap(result_gap=self.result)
                 self.result_entry.delete(0, "end")
                 self.result_entry.insert(0, self.result)
+
+                if not distance_gap:
+                    messagebox.showerror(
+                        title="Error",
+                        message="Distance value is required."
+                    )
 
             except ValueError:
                 messagebox.showerror(

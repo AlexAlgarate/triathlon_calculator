@@ -71,8 +71,18 @@ class TestSwimLabelsEntries(unittest.TestCase):
         result = self.app.result_entry.get()
         self.assertEqual(result, "01:30 min/100mts")
 
-    def test_invalid_values(self):
+    def test_invalid_value_letter(self):
         values = {"distance": "1000", "hour": "0", "minutes": "15a", "seconds": "00"}
+        self._update_gap_values(values)
+        showerror_mock = MagicMock()
+        with patch(
+            "src.sports.swimming.swim_calculator.messagebox.showerror", showerror_mock
+        ):
+            self.app.swim_pace()
+        showerror_mock.assert_called_once()
+
+    def test_invalid_values_float(self):
+        values = {"distance": "100.5", "hour": "0", "minutes": "15", "seconds": "00"}
         self._update_gap_values(values)
         showerror_mock = MagicMock()
         with patch(
@@ -83,6 +93,24 @@ class TestSwimLabelsEntries(unittest.TestCase):
 
     def test_zero_distance(self):
         values = {"distance": "0", "hour": "0", "minutes": "15", "seconds": "00"}
+
+        self._update_gap_values(values)
+        showerror_mock = MagicMock()
+        with patch(
+            "src.sports.swimming.swim_calculator.messagebox.showerror", showerror_mock
+        ):
+            self.app.swim_pace()
+        showerror_mock.assert_called_once()
+
+    def test_zero_time(self):
+        values = {"distance": "100", "hour": "0", "minutes": "0", "seconds": "00"}
+        self._update_gap_values(values)
+        self.app.swim_pace()
+        result = self.app.result_entry.get()
+        self.assertEqual(result, "00:00 min/100mts")
+
+    def test_missing_distance_input(self):
+        values = {"distance": "", "hour": "1", "minutes": "30", "seconds": "45"}
 
         self._update_gap_values(values)
         showerror_mock = MagicMock()
@@ -125,12 +153,14 @@ class DistanceButtonsTest(unittest.TestCase):
             ("Sprint", "750"),
             ("Olympic", "1500"),
             ("Half Ironman", "1900"),
-            ("Ironman", "3800")
+            ("Ironman", "3800"),
         ]
         self.buttons_creator.create_distance_buttons(distances)
 
         # Check if the correct number of buttons is created
-        self.assertEqual(len(distances), len(self.buttons_creator.distance_frame.winfo_children()))
+        self.assertEqual(
+            len(distances), len(self.buttons_creator.distance_frame.winfo_children())
+        )
 
         # Check if the buttons have the correct text and value
         for i, (button_text, distance_value) in enumerate(distances):
