@@ -1,31 +1,26 @@
 import tkinter as tk
 from tkinter import messagebox
+from typing import Any, Dict, Literal
 
 from src.utils.widgets import Widgets
 
 
 class SwimCalculator(tk.Tk):
-    DISTANCES = [
-        ("Sprint", 750),
-        ("Olympic", 1500),
-        ("Half Ironman", 1900),
-        ("Ironman", 3800),
-    ]
     result_entry: tk.Entry
 
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
 
         self.widget = Widgets(self, title="Swim Calculator", size=(600, 350))
-        self.widget.create_distance_buttons(self.DISTANCES)
 
-        self.update_result()
+        self._bind_events()
+        self._schedule_swim_pace()
 
-    def swim_pace(self, event=None):
-        distance_gap = self.widget.entry_gap["distance"].get()
-        hour_gap = self.widget.entry_gap["hour"].get() or 0
-        minute_gap = self.widget.entry_gap["minutes"].get() or 0
-        seconds_gap = self.widget.entry_gap["seconds"].get() or 0
+    def swim_pace(self, event=None) -> None:  # type: ignore
+        distance_gap: Any = self.widget.entry_gap["distance"].get()
+        hour_gap: Any | Literal[0] = self.widget.entry_gap["hour"].get() or 0
+        minute_gap: Any | Literal[0] = self.widget.entry_gap["minutes"].get() or 0
+        seconds_gap: Any | Literal[0] = self.widget.entry_gap["seconds"].get() or 0
 
         if distance_gap and (hour_gap or minute_gap or seconds_gap):
             try:
@@ -34,37 +29,35 @@ class SwimCalculator(tk.Tk):
                 minute_gap = int(minute_gap)
                 seconds_gap = int(seconds_gap)
 
-                total_seconds = (hour_gap * 3600) + (minute_gap * 60) + seconds_gap
-                pace_seconds = (total_seconds * 100) / distance_gap
+                total_seconds: int = (hour_gap * 3600) + (minute_gap * 60) + seconds_gap
+                pace_seconds: Any = (total_seconds * 100) / distance_gap
                 minutes = int(pace_seconds // 60)
                 seconds_left = int(pace_seconds % 60)
-                self.result = f"0{minutes:01d}:{seconds_left:02d} min/100mts"
+                self.result: str = f"0{minutes:01d}:{seconds_left:02d} min/100mts"
 
-                self.result_entry = self.widget.create_result_gap(result_gap=self.result)
+                self.result_entry = self.widget.create_result_gap(
+                    result_gap=self.result
+                )
                 self.result_entry.delete(0, "end")
                 self.result_entry.insert(0, self.result)
 
             except ValueError:
-                messagebox.showerror(
+                messagebox.showerror(  # type: ignore
                     "Error", "Invalid input. Please enter numbers only."
                 )
                 return
             except ZeroDivisionError:
-                messagebox.showerror(
+                messagebox.showerror(  # type: ignore
                     "Error", "Invalid distance. Please enter a distance number"
                 )
                 return
 
-        self.after(5000, self.swim_pace)
+        self.after(5000, self.swim_pace)  # type: ignore
 
-    def update_result(self):
-        self._bind_events()
-        self._schedule_swim_pace()
-
-    def _bind_events(self):
-        entry_gap = self.widget.entry_gap
+    def _bind_events(self) -> None:
+        entry_gap: Dict[Any, Any] = self.widget.entry_gap
         for entry in entry_gap.values():
-            entry.bind("<Return>", self.swim_pace)
+            entry.bind("<Return>", self.swim_pace)  # type: ignore
 
-    def _schedule_swim_pace(self):
-        self.after(1000, self.swim_pace)
+    def _schedule_swim_pace(self) -> None:
+        self.after(1000, self.swim_pace)  # type: ignore

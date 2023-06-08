@@ -9,7 +9,7 @@ class EntryLabel(tk.Label):
         relx_value: float,
         rely_value: float,
         relwidth_value: float,
-    ):
+    ) -> None:
         super().__init__(parent, text=text)
         self.place(
             relx=relx_value, rely=rely_value, relwidth=relwidth_value, relheight=0.1
