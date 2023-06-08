@@ -6,7 +6,6 @@ from src.utils.widgets import Widgets
 
 
 class SwimCalculator(tk.Tk):
-    result_entry: tk.Entry
 
     def __init__(self) -> None:
         super().__init__()
@@ -35,11 +34,11 @@ class SwimCalculator(tk.Tk):
                 seconds_left = int(pace_seconds % 60)
                 self.result: str = f"0{minutes:01d}:{seconds_left:02d} min/100mts"
 
-                self.result_entry = self.widget.create_result_gap(
+                result_entry: tk.Entry = self.widget.create_result_gap(
                     result_gap=self.result
                 )
-                self.result_entry.delete(0, "end")
-                self.result_entry.insert(0, self.result)
+                result_entry.delete(0, "end")
+                result_entry.insert(0, self.result)
 
             except ValueError:
                 messagebox.showerror(  # type: ignore
