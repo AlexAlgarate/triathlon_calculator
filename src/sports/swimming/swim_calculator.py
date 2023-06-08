@@ -16,6 +16,8 @@ class SwimCalculator(tk.Tk):
         self._bind_events()
         self._schedule_swim_pace()
 
+        self.mainloop()
+
     def swim_pace(self, event=None) -> None:  # type: ignore
         distance_gap: Any = self.widget.entry_gap["distance"].get()
         hour_gap: Any | Literal[0] = self.widget.entry_gap["hour"].get() or 0
