@@ -148,5 +148,5 @@ class Widgets:
 
     def _close_window_button(self) -> None:
         CloseWindowButton(
-            self.window, button_text="Close", root=self.window.winfo_toplevel()
+            self.window, button_text="Close", root=self.window.winfo_toplevel()  # type: ignore
         )

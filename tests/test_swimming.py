@@ -14,7 +14,7 @@ from src.utils.triathlon_distance_buttons import DistanceButtonsCreator
 
 
 class TestSwimLabelsEntries(unittest.TestCase):
-    def setUp(self):
+    def setUp(self) -> None:
         self.window = tk.Tk()
 
         self.app = SwimCalculator()

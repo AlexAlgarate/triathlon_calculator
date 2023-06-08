@@ -3,7 +3,9 @@ from typing import Dict
 
 
 class MenuLabel(tk.Label):
-    def __init__(self, parent: tk.Tk, text: str, background: str, rely_value: float) -> None:
+    def __init__(
+        self, parent: tk.Tk, text: str, background: str, rely_value: float
+    ) -> None:
         place_parameter: Dict[str, float] = {
             "relx": 0.05,
             "relwidth": 0.23,
