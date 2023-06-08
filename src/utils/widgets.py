@@ -1,7 +1,7 @@
 import tkinter as tk
 from typing import List, Tuple, Union
 
-from src.utils.close_window import CloseWindowButton
+from src.utils.close_window_button import CloseWindowButton
 from src.utils.triathlon_distance_buttons import DistanceButtonsCreator
 from src.utils.entry_gaps import EntryGap
 from src.utils.entry_labels import EntryLabel

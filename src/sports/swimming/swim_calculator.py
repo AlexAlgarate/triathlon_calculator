@@ -58,8 +58,13 @@ class SwimCalculator(tk.Tk):
         self.after(5000, self.swim_pace)
 
     def update_result(self):
-        self.widget.entry_gap["distance"].bind("<Return>", self.swim_pace)
-        self.widget.entry_gap["hour"].bind("<Return>", self.swim_pace)
-        self.widget.entry_gap["minutes"].bind("<Return>", self.swim_pace)
-        self.widget.entry_gap["seconds"].bind("<Return>", self.swim_pace)
+        self._bind_events()
+        self._schedule_swim_pace()
+
+    def _bind_events(self):
+        entry_gap = self.widget.entry_gap
+        for entry in entry_gap.values():
+            entry.bind("<Return>", self.swim_pace)
+
+    def _schedule_swim_pace(self):
         self.after(1000, self.swim_pace)
