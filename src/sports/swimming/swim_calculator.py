@@ -2,15 +2,16 @@ import tkinter as tk
 from tkinter import messagebox
 from typing import Any, Dict, Literal
 
-from src.utils.widgets import Widgets
+from src.utils.widgets import CreateWindow
 
 
 class SwimCalculator(tk.Tk):
+    result_entry: tk.Entry
 
     def __init__(self) -> None:
         super().__init__()
 
-        self.widget = Widgets(self, title="Swim Calculator", size=(600, 350))
+        self.widget = CreateWindow(self, title="Swim Calculator", size=(600, 350))
 
         self._bind_events()
         self._schedule_swim_pace()
@@ -34,11 +35,11 @@ class SwimCalculator(tk.Tk):
                 seconds_left = int(pace_seconds % 60)
                 self.result: str = f"0{minutes:01d}:{seconds_left:02d} min/100mts"
 
-                result_entry: tk.Entry = self.widget.create_result_gap(
+                self.result_entry: tk.Entry = self.widget.create_result_gap(
                     result_gap=self.result
                 )
-                result_entry.delete(0, "end")
-                result_entry.insert(0, self.result)
+                self.result_entry.delete(0, "end")
+                self.result_entry.insert(0, self.result)
 
             except ValueError:
                 messagebox.showerror(  # type: ignore

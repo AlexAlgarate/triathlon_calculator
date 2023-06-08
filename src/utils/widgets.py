@@ -8,7 +8,7 @@ from src.utils.menu_labels import MenuLabel
 from src.utils.triathlon_distance_buttons import DistanceButtonsCreator
 
 
-class Widgets:
+class CreateWindow:
     selected_distance: tk.StringVar
     LABEL_COLOUR: str = "PaleTurquoise2"
     ENTRY_COLOUR: str = "khaki1"
