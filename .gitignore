@@ -3,7 +3,6 @@ __pycache__/
 *.py[cod]
 *$py.class
 organización calculadora.txt
-pyproject.toml
 setup.cfg
 multiples_windows.py
 src/utils_swim
